@@ -71,7 +71,7 @@
         const expirationDays = 30;
         if (decodeURIComponent(document.cookie) == ""){
             var newUserKey = "N_" + randomString(16);
-            setCookie(newUserKey, 1, expirationDays, reload, );
+            setCookie(newUserKey, 1, expirationDays, reload);
             window.intercomSettings = {
                 app_id: "wsy9k644",
                 user_id: newUserKey
