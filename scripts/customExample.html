@@ -2,12 +2,19 @@
 <a id="custom_intercom" href="#">INTERCOM TEST</a>
 
 <script>
-    function setCookie(ctype, noofreturns, expirydays) {
+    function randomString(length) {
+        var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var result = '';
+        for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+        return result;
+    }
+
+    function setCookie(unique_key, noofreturns, expirydays, isreloaded) {
         const d = new Date();
         let lastV = d.toUTCString();
         d.setTime(d.getTime() + (expirydays*24*60*60*1000));
         let expiry = "expires="+ d.toUTCString();
-        document.cookie = "miTermsData=" + "user_type=" + ctype + "|noof_visits=" + noofreturns + "|last_visit=" + lastV + ";" + expiry;
+        document.cookie = "miTermsData=" + "session_key=" + unique_key + "|noof_visits=" + noofreturns + "|last_visited=" + lastV + "|has_reloaded=" + isreloaded + ";" + expiry;
     }
 
     function getCookie(cname) {
@@ -59,25 +66,26 @@
 
     (function() {
         console.log('Main executing');
+        var reload = (performance.navigation.type == performance.navigation.TYPE_RELOAD);
+        const expirationDays = 30;
         if (decodeURIComponent(document.cookie) == ""){
-            console.log("New visitor detected");
-            setCookie("New", 1, 30);
+            var newUserKey = "N_" + randomString(16);
+            setCookie(newUserKey, 1, expirationDays, reload, );
             window.intercomSettings = {
                 app_id: "wsy9k644",
+                user_id: newUserKey,
                 custom_launcher_selector:'#custom_intercom'
             };
         } else {
             console.log("Familiar visitor detected");
             let numberofVisits = parseInt(getCookie("noof_visits"));
-            if (numberofVisits > 15){
-                setCookie("Frequent", numberofVisits + 1, 1);
-            } else {
-                setCookie("Returning", numberofVisits + 1, 1);
-            }
+            var userKey = ((numberofVisits > 15) ? "F" : "R") + "_" + randomString(16);
+            setCookie(userKey, numberofVisits + 1, expirationDays, reload);
             window.intercomSettings = {
                 app_id: "wsy9k644",
                 name: "<%= current_user.name %>",
                 email: "<%= current_user.email %>",
+                user_id: userKey,
                 created_at: "<%= current_user.created_at.to_i %>",
                 custom_launcher_selector:'#custom_intercom'
             };       
