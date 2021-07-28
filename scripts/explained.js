@@ -16,7 +16,7 @@ function setCookie(unique_key, noofreturns, expirydays, isreloaded) {
     let lastV = d.toUTCString();
     d.setTime(d.getTime() + (expirydays*24*60*60*1000));
     let expiry = "expires="+ d.toUTCString();
-    document.cookie = "miTermsData=" + "session_key=" + unique_key + "|noof_visits=" + noofreturns + "|last_visited=" + lastV + "|has_reloaded=" + isreloaded + ";" + expiry;
+    document.cookie = "legalDropData=" + "session_key=" + unique_key + "|noof_visits=" + noofreturns + "|last_visited=" + lastV + "|has_reloaded=" + isreloaded + ";" + expiry;
 }
 
 
