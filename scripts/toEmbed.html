@@ -66,7 +66,7 @@
     // as a custom launcher test. This can be perfectly tuned to the aesthetic and vibe of the website as it can be stylised with css,
     // it can even be added to other elements such as a link in a navbar or a call to action button on the page, with a tag that tiggers as it is pressed.
     (function() {
-        console.log('Main executing');
+        // console.log('Main executing');
         var reload = (performance.navigation.type == performance.navigation.TYPE_RELOAD);
         const expirationDays = 30;
         if (decodeURIComponent(document.cookie) == ""){
@@ -78,7 +78,7 @@
                 //custom_launcher_selector:'#custom_intercom'
             };
         } else {
-            console.log("Familiar visitor detected");
+            // console.log("Familiar visitor detected");
             let numberofVisits = parseInt(getCookie("noof_visits"));
             var userKey = ((numberofVisits > 15) ? "F" : "R") + "_" + randomString(16);
             setCookie(userKey, numberofVisits + 1, expirationDays, reload);
